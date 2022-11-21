@@ -13,7 +13,13 @@ open class CardsSliderLayout: UICollectionViewLayout {
     public var selectedItem: Int {
         get {
             guard let collectionView = collectionView else { return 0 }
-            return min(max(Int(collectionView.contentOffset.x) / Int(collectionView.bounds.width), 0), collectionView.numberOfItems(inSection: 0))
+            let selectedItem = min(max(Int(collectionView.contentOffset.x) / Int(collectionView.bounds.width), 0), collectionView.numberOfItems(inSection: 0))
+            let selectedItemDouble = collectionView.contentOffset.x / collectionView.bounds.width
+            let selectedItemIsInteger = Double(selectedItemDouble) == Double(selectedItem)
+            if selectedItemIsInteger || collectionView.contentOffset.x < 0 {
+                selectedItemObserve?(selectedItem)
+            }
+            return selectedItem
         }
         set {
             guard let collectionView = collectionView else { return }
@@ -68,7 +74,6 @@ open class CardsSliderLayout: UICollectionViewLayout {
         let selectedItemIsInteger = Double(selectedItemDouble) == Double(selectedItem)
         let defaultMaxVisibleItem: Int
         if selectedItemIsInteger || collectionView.contentOffset.x < 0 {
-            selectedItemObserve?(selectedItem)
             defaultMaxVisibleItem = 4
         } else {
             defaultMaxVisibleItem = 5
