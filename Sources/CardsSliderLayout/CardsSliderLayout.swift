@@ -9,13 +9,7 @@ import UIKit
 import InfiniteScrollCollectionView
 
 open class CardsSliderLayout: UICollectionViewLayout {
-    fileprivate let size = UIScreen.main.bounds
-    fileprivate lazy var contentSize: CGSize = {
-        let cellWidth = contentWidth - 16 - 16 * 3
-        let cellHeight = cellWidth
-        return CGSize(width: cellWidth, height: cellHeight)
-    }()
-    
+    public var selectedItemObserve: ((_ index: Int) -> ())? = nil
     public var selectedItem: Int {
         get {
             guard let collectionView = collectionView else { return 0 }
@@ -26,6 +20,13 @@ open class CardsSliderLayout: UICollectionViewLayout {
             collectionView.setContentOffset(CGPoint(x: CGFloat(newValue) * collectionView.frame.width, y: 0), animated: false)
         }
     }
+    
+    fileprivate let size = UIScreen.main.bounds
+    fileprivate lazy var contentSize: CGSize = {
+        let cellWidth = contentWidth - 16 - 16 * 3
+        let cellHeight = cellWidth
+        return CGSize(width: cellWidth, height: cellHeight)
+    }()
     
     fileprivate var contentWidth: CGFloat {
         guard let collectionView = collectionView else { return 0 }
@@ -65,7 +66,14 @@ open class CardsSliderLayout: UICollectionViewLayout {
         let ratioScreenOffsetX = selectedItemDouble - CGFloat(selectedItem)
         let screenOffsetX = 16.0 * ratioScreenOffsetX
         let selectedItemIsInteger = Double(selectedItemDouble) == Double(selectedItem)
-        let maxVisibleItem = min(count - selectedItem, (selectedItemIsInteger || collectionView.contentOffset.x < 0) ? 4 : 5)
+        let defaultMaxVisibleItem: Int
+        if selectedItemIsInteger || collectionView.contentOffset.x < 0 {
+            selectedItemObserve?(selectedItem)
+            defaultMaxVisibleItem = 4
+        } else {
+            defaultMaxVisibleItem = 5
+        }
+        let maxVisibleItem = min(count - selectedItem, defaultMaxVisibleItem)
         
         let layoutAttributes = (0..<maxVisibleItem).map { index in
             let visibleIndex = selectedItem + index
