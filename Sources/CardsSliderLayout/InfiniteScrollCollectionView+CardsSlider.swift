@@ -16,16 +16,4 @@ extension InfiniteScrollCollectionView {
             super.scrollToItem(at: indexPath, at: scrollPosition, animated: animated)
         }
     }
-    
-    open override var visibleCells: [UICollectionViewCell] {
-        if let layout = collectionViewLayout as? CardsSliderLayout {
-            if let cell = cellForItem(at: IndexPath(item: layout.selectedItem, section: 0)) {
-                return [cell]
-            } else {
-                return super.visibleCells
-            }
-        } else {
-            return super.visibleCells
-        }
-    }
 }
