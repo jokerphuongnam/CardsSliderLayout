@@ -28,7 +28,7 @@ open class CardsSliderLayout: UICollectionViewLayout {
     
     fileprivate let size = UIScreen.main.bounds
     fileprivate lazy var contentSize: CGSize = {
-        let cellWidth = contentWidth - 16 - 16 * 3
+        let cellWidth = contentWidth - 16 * CGFloat(numberOfItemsVisible)
         let cellHeight = cellWidth
         return CGSize(width: cellWidth, height: cellHeight)
     }()
@@ -39,6 +39,7 @@ open class CardsSliderLayout: UICollectionViewLayout {
     }
     
     fileprivate var contentHeight: CGFloat = 0
+    open var numberOfItemsVisible: Int = 3
     
     open override var collectionViewContentSize: CGSize {
         CGSize(width: contentWidth * CGFloat((collectionView?.numberOfItems(inSection: 0) ?? 0)), height: contentHeight)
@@ -73,15 +74,15 @@ open class CardsSliderLayout: UICollectionViewLayout {
         let selectedItemIsInteger = Double(selectedItemDouble) == Double(selectedItem)
         let defaultMaxVisibleItem: Int
         if selectedItemIsInteger || collectionView.contentOffset.x < 0 {
-            defaultMaxVisibleItem = 4
+            defaultMaxVisibleItem = numberOfItemsVisible
         } else {
-            defaultMaxVisibleItem = 5
+            defaultMaxVisibleItem = numberOfItemsVisible + 1
         }
         let maxVisibleItem = min(count - selectedItem, defaultMaxVisibleItem)
         
         let layoutAttributes = (0..<maxVisibleItem).map { index in
             let visibleIndex = selectedItem + index
-            let reverseIndex = 4 - index
+            let reverseIndex = maxVisibleItem - index
             let attributes = UICollectionViewLayoutAttributes(forCellWith: IndexPath(item: visibleIndex, section: 0))
             
             attributes.zIndex = reverseIndex
