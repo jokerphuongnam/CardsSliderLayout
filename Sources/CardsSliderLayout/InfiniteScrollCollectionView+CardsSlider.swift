@@ -9,7 +9,7 @@ import UIKit
 import InfiniteScrollCollectionView
 
 extension InfiniteScrollCollectionView {
-    open override var infiniteIndexPathsForVisibleItems: [IndexPath] {
+    open var infiniteIndexPathsForVisibleItems: [IndexPath] {
         if let layout = collectionViewLayout as? CardsSliderLayout {
             return [[0, layout.selectedItem]]
         } else {
@@ -17,7 +17,7 @@ extension InfiniteScrollCollectionView {
         }
     }
     
-    open override func infiniteScrollToItem(at indexPath: IndexPath, at scrollPosition: UICollectionView.ScrollPosition) {
+    open func infiniteScrollToItem(at indexPath: IndexPath, at scrollPosition: UICollectionView.ScrollPosition) {
         if let layout = collectionViewLayout as? CardsSliderLayout {
             layout.selectedItem = indexPath.item
         } else {
