@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import InfiniteScrollCollectionView
 
 open class CardsSliderLayout: UICollectionViewLayout {
     public var selectedItemObserve: ((_ index: Int) -> ())? = nil
@@ -110,16 +109,6 @@ open class CardsSliderLayout: UICollectionViewLayout {
         }
         return layoutAttributes.sorted { lhs, rhs in
             lhs.indexPath.item < rhs.indexPath.item
-        }
-    }
-}
-
-extension InfiniteScrollCollectionView {
-    open override func scrollToItem(at indexPath: IndexPath, at scrollPosition: UICollectionView.ScrollPosition, animated: Bool) {
-        if let layout = collectionViewLayout as? CardsSliderLayout {
-            layout.selectedItem = indexPath.item
-        } else {
-            super.scrollToItem(at: indexPath, at: scrollPosition, animated: animated)
         }
     }
 }
