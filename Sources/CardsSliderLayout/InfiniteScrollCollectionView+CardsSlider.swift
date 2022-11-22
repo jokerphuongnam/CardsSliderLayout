@@ -22,7 +22,7 @@ extension InfiniteScrollCollectionView {
             if let cell = cellForItem(at: IndexPath(item: layout.selectedItem, section: 0)) {
                 return [cell]
             } else {
-                return []
+                return super.visibleCells
             }
         } else {
             return super.visibleCells
