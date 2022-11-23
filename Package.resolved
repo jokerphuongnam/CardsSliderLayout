@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/jokerphuongnam/InfiniteScrollCollectionView.git",
       "state" : {
-        "branch" : "master",
-        "revision" : "1e104069290de3bffdee33456512da54e0de05b5"
+        "revision" : "b72746989ec71418fcb73a44014b6654c39e497a",
+        "version" : "1.0.6"
       }
     }
   ],
