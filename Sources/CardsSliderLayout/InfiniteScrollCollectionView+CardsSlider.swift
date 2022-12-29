@@ -11,7 +11,11 @@ import InfiniteScrollCollectionView
 extension InfiniteScrollCollectionView {
     @objc open override var infiniteIndexPathsForVisibleItems: [IndexPath] {
         if let layout = collectionViewLayout as? CardsSliderLayout {
-            return [[0, layout.selectedItem]]
+            if let exactSelectedItem = layout.exactSelectedItem {
+                return [[0, exactSelectedItem]]
+            } else {
+                return []
+            }
         } else {
             return super.indexPathsForVisibleItems
         }

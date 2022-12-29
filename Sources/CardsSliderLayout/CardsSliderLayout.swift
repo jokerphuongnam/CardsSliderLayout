@@ -26,6 +26,13 @@ open class CardsSliderLayout: UICollectionViewLayout {
         }
     }
     
+    public var exactSelectedItem: Int? {
+        guard let collectionView = collectionView else { return 0 }
+        let selectedItem = min(max(Int(collectionView.contentOffset.x) / Int(collectionView.bounds.width), 0), collectionView.numberOfItems(inSection: 0))
+        let selectedItemDouble = collectionView.contentOffset.x / collectionView.bounds.width
+        return Double(selectedItemDouble) == Double(selectedItem) ? selectedItem : nil
+    }
+    
     fileprivate let size = UIScreen.main.bounds
     fileprivate lazy var contentSize: CGSize = {
         let cellWidth = contentWidth - 16 * CGFloat(numberOfItemsVisible)
